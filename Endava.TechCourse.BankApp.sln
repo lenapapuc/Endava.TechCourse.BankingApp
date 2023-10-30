@@ -6,12 +6,15 @@ MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endava.TechCourse.BankApp.Server", "Server\Endava.TechCourse.BankApp.Server.csproj", "{3F9AF5CF-1A4E-4492-8797-8AA90BF0D4DF}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endava.TechCourse.BankApp.Client", "Client\Endava.TechCourse.BankApp.Client.csproj", "{E950B998-CAA1-41C3-8CA5-1629C83CEA1A}"
+	ProjectSection(ProjectDependencies) = postProject
+		{8981074E-5200-4079-A51C-5AD30FDE4D8E} = {8981074E-5200-4079-A51C-5AD30FDE4D8E}
+	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endava.TechCourse.BankApp.Shared", "Shared\Endava.TechCourse.BankApp.Shared.csproj", "{C6A2C4BD-A777-45F9-A29C-5A43A63EBC03}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endava.TechCourse.BankApp.Domain", "Endava.TechCourse.BankApp.Domain\Endava.TechCourse.BankApp.Domain.csproj", "{8981074E-5200-4079-A51C-5AD30FDE4D8E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Endava.TechCourse.BankApp.Infrastructure", "Endava.TechCourse.BankApp.Infrastructure\Endava.TechCourse.BankApp.Infrastructure.csproj", "{8E1FC7DB-5087-475C-9012-0EE189A0E363}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Endava.TechCourse.BankApp.Infrastructure", "Endava.TechCourse.BankApp.Infrastructure\Endava.TechCourse.BankApp.Infrastructure.csproj", "{8E1FC7DB-5087-475C-9012-0EE189A0E363}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,0 +1,47 @@
+﻿<h3>Wallet</h3>
+@page "/wallet/{id}"
+@using MudBlazor
+@inject HttpClient HttpClient
+@inject NavigationManager NavigationManager
+
+<PageTitle>All wallets</PageTitle>
+
+
+<br />
+<br />
+<MudCard class="mud-elevation-2 mud-bg-primary">
+<MudCardContent>
+    @if (wallet != null)
+    {
+        <h3>Wallet Details</h3>
+        <div>
+            <strong>Type:</strong> @wallet.Type
+        </div>
+        <div>
+            <strong>Amount:</strong> @wallet.Amount
+        </div>
+        <div>
+            <strong>Currency:</strong> @wallet.Currency.CurrencyCode
+        </div>
+    }
+</MudCardContent>
+</MudCard>
+
+
+
+@code {
+    private Endava.TechCourse.BankApp.Domain.Models.Wallet wallet;
+    [Parameter]
+    public string Id { get; set; }
+    protected override void OnParametersSet()
+    {
+        var uri = new Uri(NavigationManager.Uri);
+        var id = uri.Segments.LastOrDefault();
+        Id = id;
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        wallet = await HttpClient.GetFromJsonAsync<Endava.TechCourse.BankApp.Domain.Models.Wallet>($"http://localhost:5179/api/wallet/{Id}");
+    }
+}
