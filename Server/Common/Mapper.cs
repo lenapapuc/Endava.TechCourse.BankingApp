@@ -25,5 +25,25 @@ namespace Endava.TechCourse.BankApp.Server.Common
 
             return dtos;
         }
+
+        public static IEnumerable<CurrencyDto> Map(IEnumerable<Currency> currencies)
+        {
+            var dtos = new List<CurrencyDto>();
+
+            foreach (var currency in currencies)
+            {
+                var dto = new CurrencyDto()
+                {
+                    Id = currency.Id.ToString(),
+                    ChangeRate = currency.ChangeRate,
+                    CurrencyCode = currency.CurrencyCode,
+                    Name = currency.Name
+                };
+
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
     }
 }

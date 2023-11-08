@@ -84,7 +84,11 @@
         await base.OnInitializedAsync();
     }
 
-    public async Task GetWallets() => wallets = await this.httpClient.GetFromJsonAsync<List<WalletDto>>("api/wallets");
+    public async Task GetWallets()
+    { wallets = await this.httpClient.GetFromJsonAsync<List<WalletDto>>("api/wallets");
+       foreach(var wallet in wallets) Console.WriteLine(wallet);
+    }
+
     public async Task GetCurrencies() => currencies = await this.httpClient.GetFromJsonAsync<List<CurrencyDto>>("api/currencies");
 
 
