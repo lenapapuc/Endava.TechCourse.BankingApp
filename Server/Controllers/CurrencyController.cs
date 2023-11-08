@@ -63,7 +63,6 @@ namespace Endava.TechCourse.BankApp.Server.Controllers
             context.Currencies.Remove(currency);
             context.SaveChanges();
             return Ok();
-          
         }
 
         }
