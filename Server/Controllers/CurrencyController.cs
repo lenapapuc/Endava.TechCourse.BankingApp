@@ -4,6 +4,7 @@ using Endava.TechCourse.BankApp.Server.Common;
 using Endava.TechCourse.BankApp.Shared;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace Endava.TechCourse.BankApp.Server.Controllers
 {
@@ -43,6 +44,29 @@ namespace Endava.TechCourse.BankApp.Server.Controllers
 
             return dtos;
         }
+        [Route("{id}")]
+        [HttpGet]
+        public async Task<CurrencyDto> GetCurrencyById(Guid id)
+        {
+            var currency = await context.Currencies.FirstOrDefaultAsync(c => c.Id == id);
+            var currencyList = new List<Currency>{currency};
+            var dto = Mapper.Map(currencyList).ToList();
+            return dto.FirstOrDefault();
+        }
+
+        [Route("{id}")]
+        [HttpDelete]
+        public async Task<IActionResult> DeleteCurrency(Guid id)
+        {
+            var currency = await context.Currencies.FirstOrDefaultAsync(c => c.Id == id);
+            if (currency == null) return NotFound("Currency Not Found");
+            context.Currencies.Remove(currency);
+            context.SaveChanges();
+            return Ok();
+          
+        }
+
+        }
       
     }
-}
+
