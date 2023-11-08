@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231025145710_CreateTables")]
+    [Migration("20231025152206_CreateTables")]
     partial class CreateTables
     {
         /// <inheritdoc />

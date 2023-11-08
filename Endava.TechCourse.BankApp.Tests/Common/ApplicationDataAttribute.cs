@@ -1,6 +1,4 @@
-﻿
-
-namespace Endava.BankApp.Test.Common
+﻿namespace Endava.TechCourse.BankApp.Tests.Common
 {
     public class ApplicationDataAttribute : InlineAutoDataAttribute
     {
