@@ -14,20 +14,20 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Currency> Currencies { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.Entity<Wallet>()
+        modelBuilder.Entity<Wallet>()
             .HasKey(e => e.Id);
 
-        builder.Entity<Currency>()
+        modelBuilder.Entity<Currency>()
             .HasKey(e => e.Id);
 
-        builder.Entity<Currency>()
+        modelBuilder.Entity<Currency>()
             .HasMany(e => e.Wallets)
             .WithOne(e => e.Currency)
             .HasForeignKey(e => e.CurrencyId)
             .IsRequired();
 
-        base.OnModelCreating(builder);
+        base.OnModelCreating(modelBuilder);
     }
 }

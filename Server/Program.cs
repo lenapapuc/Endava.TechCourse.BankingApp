@@ -1,42 +1,50 @@
+using Endava.TechCourse.BankApp.Application.Queries.GetWallets;
 using Endava.TechCourse.BankApp.Infrastructure;
 
 namespace Endava.TechCourse.BankApp
 {
-	public class Program
-	{
-		public static void Main(string[] args)
-		{
-			var builder = WebApplication.CreateBuilder(args);
-			var configuration = builder.Configuration;
+    public class Program
+    {
+        public static void Main(string[] args)
+        {
+            var builder = WebApplication.CreateBuilder(args);
+            var configuration = builder.Configuration;
 
-			// Add services to the container.
-			builder.Services.AddInfrastructure(configuration);
-			builder.Services.AddControllersWithViews();
-			builder.Services.AddRazorPages();
+            // Add services to the container.
+            builder.Services.AddInfrastructure(configuration);
 
-			var app = builder.Build();
+            //Add mediatR
+            builder.Services.AddMediatR(config =>
+            {
+                config.RegisterServicesFromAssembly(typeof(Program).Assembly);
+                config.RegisterServicesFromAssembly(typeof(GetWalletsQuery).Assembly);
+            });
 
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
-			{
-				app.UseWebAssemblyDebugging();
-			}
-			else
-			{
-				app.UseExceptionHandler("/Error");
-			}
+            builder.Services.AddControllersWithViews();
+            builder.Services.AddRazorPages();
 
-			app.UseBlazorFrameworkFiles();
-			app.UseStaticFiles();
+            var app = builder.Build();
 
-			app.UseRouting();
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseWebAssemblyDebugging();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error");
+            }
 
+            app.UseBlazorFrameworkFiles();
+            app.UseStaticFiles();
 
-			app.MapRazorPages();
-			app.MapControllers();
-			app.MapFallbackToFile("index.html");
+            app.UseRouting();
 
-			app.Run();
-		}
-	}
+            app.MapRazorPages();
+            app.MapControllers();
+            app.MapFallbackToFile("index.html");
+
+            app.Run();
+        }
+    }
 }
