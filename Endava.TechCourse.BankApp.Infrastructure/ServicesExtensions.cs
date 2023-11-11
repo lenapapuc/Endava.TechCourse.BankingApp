@@ -10,21 +10,22 @@ namespace Endava.TechCourse.BankApp.Infrastructure;
 
 public static class ServicesExtensions
 {
-	public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
-	{
-		services.AddDbContext<ApplicationDbContext>(options =>
-			options.UseSqlServer(
-				configuration.GetConnectionString("DefaultConnection"),
-				b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+    public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
+    {
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseSqlServer(
+                configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+
         services
-            .AddIdentity<User, IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<ApplicationDbContext>()
-            .AddRoleStore<RoleStore<IdentityRole<Guid>, ApplicationDbContext, Guid>>()
-            .AddUserStore<UserStore<User, IdentityRole<Guid>, ApplicationDbContext, Guid>>()
-            .AddUserManager<UserManager<User>>()
-            .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
-            .AddSignInManager<SignInManager<User>>()
-            .AddDefaultTokenProviders();
+                .AddIdentity<User, IdentityRole<Guid>>()
+                .AddEntityFrameworkStores<ApplicationDbContext>()
+                .AddRoleStore<RoleStore<IdentityRole<Guid>, ApplicationDbContext, Guid>>()
+                .AddUserStore<UserStore<User, IdentityRole<Guid>, ApplicationDbContext, Guid>>()
+                .AddUserManager<UserManager<User>>()
+                .AddRoleManager<RoleManager<IdentityRole<Guid>>>()
+                .AddSignInManager<SignInManager<User>>()
+                .AddDefaultTokenProviders();
 
         services.Configure<IdentityOptions>(options =>
         {
@@ -40,5 +41,5 @@ public static class ServicesExtensions
         });
 
         return services;
-	}
+    }
 }

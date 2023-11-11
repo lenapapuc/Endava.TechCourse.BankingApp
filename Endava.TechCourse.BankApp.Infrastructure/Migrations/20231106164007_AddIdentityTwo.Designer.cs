@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20231108153742_ConfigureRoles2")]
-    partial class ConfigureRoles2
+    [Migration("20231106164007_AddIdentityTwo")]
+    partial class AddIdentityTwo
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -165,18 +165,6 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("5fc4cbff-0761-41bc-969a-da486375a710"),
-                            Name = "User"
-                        },
-                        new
-                        {
-                            Id = new Guid("39b31ae7-c92b-492c-966f-f7acaa26d0fe"),
-                            Name = "Admin"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>

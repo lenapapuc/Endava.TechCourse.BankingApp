@@ -5,7 +5,7 @@ namespace Endava.TechCourse.BankApp.Server.Common
 {
     public static class Mapper
     {
-        public static IEnumerable<WalletDto> Map(IEnumerable<Wallet> wallets)
+        public static List<WalletDto> Map(IEnumerable<Wallet> wallets)
         {
             var dtos = new List<WalletDto>();
 
@@ -18,26 +18,6 @@ namespace Endava.TechCourse.BankApp.Server.Common
                     Currency = wallet.Currency.Name,
                     ChangeRate = wallet.Currency.ChangeRate,
                     Amount = wallet.Amount
-                };
-
-                dtos.Add(dto);
-            }
-
-            return dtos;
-        }
-
-        public static IEnumerable<CurrencyDto> Map(IEnumerable<Currency> currencies)
-        {
-            var dtos = new List<CurrencyDto>();
-
-            foreach (var currency in currencies)
-            {
-                var dto = new CurrencyDto()
-                {
-                    Id = currency.Id.ToString(),
-                    ChangeRate = currency.ChangeRate,
-                    CurrencyCode = currency.CurrencyCode,
-                    Name = currency.Name
                 };
 
                 dtos.Add(dto);

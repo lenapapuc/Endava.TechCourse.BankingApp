@@ -1,5 +1,4 @@
 ﻿using Endava.TechCourse.BankApp.Domain.Models;
-using Endava.TechCourse.BankApp.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -15,21 +14,20 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Currency> Currencies { get; set; }
 
-    protected override void OnModelCreating(ModelBuilder builder)
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        builder.Entity<Wallet>()
+        modelBuilder.Entity<Wallet>()
             .HasKey(e => e.Id);
 
-        builder.Entity<Currency>()
+        modelBuilder.Entity<Currency>()
             .HasKey(e => e.Id);
 
-        builder.Entity<Currency>()
+        modelBuilder.Entity<Currency>()
             .HasMany(e => e.Wallets)
             .WithOne(e => e.Currency)
             .HasForeignKey(e => e.CurrencyId)
             .IsRequired();
 
-        base.OnModelCreating(builder);
-        builder.ApplyConfiguration(new RoleConfigurations());
+        base.OnModelCreating(modelBuilder);
     }
 }
