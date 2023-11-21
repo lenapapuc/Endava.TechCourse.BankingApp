@@ -3,7 +3,7 @@
 @inject HttpClient httpClient
 
 <PageTitle>Endava .NET Tech Course</PageTitle>
-
+<AuthorizeView Roles = "USER">
 <MudGrid>
     <MudItem md="12">
         <MudText Typo="Typo.h4" GutterBottom="true">Portofele existente</MudText>
@@ -22,7 +22,7 @@
                 <MudCard>
                     <MudCardHeader>
                         <CardHeaderContent>
-                            <MudText Typo="Typo.h6">Portofel Digital</MudText>
+                            <MudText Typo="Typo.h6">Portofel Digital @wallet.Type</MudText>
                         </CardHeaderContent>
                         <CardHeaderActions>
                             <MudIconButton Icon="@Icons.Material.Filled.Bookmark" Color="Color.Default" />
@@ -56,7 +56,18 @@
                 }
             </MudSelect>
         </MudItem>
+          <MudItem md="2">
+            <MudSelect T="string" @bind-Value="newWallet.Type" Label="Tipul" Variant="Variant.Outlined" AnchorOrigin="Origin.BottomCenter">
+              
+                    <MudSelectItem Value="@("Tipul 1")" />
+                    <MudSelectItem Value="@("Tipul 2")" />
+                    <MudSelectItem Value="@("Tipul 3")" />
+                
+            </MudSelect>
+        </MudItem>
+   
         <MudItem md="2">
+        
             <MudButton Class="mt-4" Variant="Variant.Filled" Color="Color.Primary" OnClick="AddWallet">Adauga</MudButton>
         </MudItem>
         <MudItem md="12">
@@ -67,6 +78,7 @@
         </MudItem>
     }
 </MudGrid>
+</AuthorizeView>
 
 
 @code {
@@ -77,14 +89,14 @@
 
     protected override async Task OnInitializedAsync()
     {
-        await GetWallets();
+        await GetWalletsPerUser();
         await GetCurrencies();
         StateHasChanged();
 
         await base.OnInitializedAsync();
     }
 
-    public async Task GetWallets() => wallets = await this.httpClient.GetFromJsonAsync<List<WalletDto>>("api/wallets");
+    public async Task GetWalletsPerUser() => wallets = await this.httpClient.GetFromJsonAsync<List<WalletDto>>("api/wallets");
     public async Task GetCurrencies() => currencies = await this.httpClient.GetFromJsonAsync<List<CurrencyDto>>("api/currencies");
 
 
@@ -100,7 +112,7 @@
                 newWalletError = await result.Content.ReadAsStringAsync();
             else
             {
-                await GetWallets();
+                await GetWalletsPerUser();
                 newWallet = new();
                 newWalletError = string.Empty;
             }

@@ -29,6 +29,7 @@ namespace Endava.TechCourse.BankApp.Application.Commands.RegisterUser
 
         public async Task<CommandStatus> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
         {
+            var anyUser = await context.Users.AnyAsync(cancellationToken);
             var userExists = await context.Users.AnyAsync(user => user.Email == request.Email, cancellationToken);
 
             if (userExists)
@@ -42,15 +43,15 @@ namespace Endava.TechCourse.BankApp.Application.Commands.RegisterUser
                 LastName = request.LastName,
                 Email = request.Email
             };
-
-            var createResult = await userManager.CreateAsync(user, request.Password);
-
             IdentityResult roleResult;
             //This is only testing, don't do that
-            if (await context.Users.AnyAsync(cancellationToken))
-                roleResult = await userManager.AddToRoleAsync(user, UserRole.User.ToString());
+           
+            var createResult = await userManager.CreateAsync(user, request.Password);
+
+            if (anyUser)
+                roleResult = await userManager.AddToRoleAsync(user, UserRole.USER.ToString());
             else
-                roleResult = await userManager.AddToRoleAsync(user, UserRole.Admin.ToString());
+                roleResult = await userManager.AddToRoleAsync(user, UserRole.ADMIN.ToString());
 
             if (!roleResult.Succeeded || !createResult.Succeeded)
                 return CommandStatus.Failed("Utilizatorul nu a putut fi inregistrat");

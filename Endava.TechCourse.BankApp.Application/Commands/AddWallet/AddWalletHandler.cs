@@ -30,12 +30,15 @@ namespace Endava.TechCourse.BankApp.Application.Commands.AddWallet
             if (currency is null)
                 return CommandStatus.Failed("Valuta pentru acest portofel nu exista");
 
+            var user = await context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == request.UserId);
+
             var wallet = new Wallet()
             {
                 Type = request.Type,
-                Amount = request.Amount,
+                Amount = new Random().Next(50,600),
                 Currency = currency,
-                CurrencyId = currency.Id
+                CurrencyId = currency.Id,
+                User = user
             };
 
             await context.Wallets.AddAsync(wallet, cancellationToken);

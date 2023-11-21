@@ -17,6 +17,8 @@ namespace Endava.TechCourse.BankApp.Domain.Models
         public decimal Amount { get; set; }
         public decimal Commission { get; set; }
         public string TransactionStatus { get; set; }
+        public User SourceUser { get; set; }
+        public User DestinationUser { get; set; }
 
     }
 }

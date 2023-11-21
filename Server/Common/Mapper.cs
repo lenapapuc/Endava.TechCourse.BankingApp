@@ -17,7 +17,9 @@
                         Type = wallet.Type,
                         Currency = wallet.Currency.Name,
                         ChangeRate = wallet.Currency.ChangeRate,
-                        Amount = wallet.Amount
+                        Amount = wallet.Amount,
+                        LastNameofUser = wallet.User.LastName,
+                        FirstNameofUser = wallet.User.FirstName
                     };
 
                 dtos.Add(dto);
@@ -26,7 +28,27 @@
                 return dtos;
             }
 
-            public static WalletDto Map(Wallet wallet)
+        public static List<WalletDto> Map1(IEnumerable<Wallet> wallets)
+        {
+            var dtos = new List<WalletDto>();
+            foreach (var wallet in wallets)
+            {
+                var dto = new WalletDto()
+                {
+
+                    Id = wallet.Id.ToString(),
+                    Type = wallet.Type,
+                    Currency = wallet.Currency.Name,
+                    ChangeRate = wallet.Currency.ChangeRate,
+                    Amount = wallet.Amount
+                };
+
+                dtos.Add(dto);
+            }
+
+            return dtos;
+        }
+        public static WalletDto Map(Wallet wallet)
             {
            
                     var dto = new WalletDto()
@@ -36,6 +58,7 @@
                         Currency = wallet.Currency.Name,
                         ChangeRate = wallet.Currency.ChangeRate,
                         Amount = wallet.Amount
+                       
                     };
 
                 return dto;
@@ -75,5 +98,32 @@
 
                 return dto;
             }
+
+        public static List<TransactionDto> Map(IEnumerable<Transaction> transactions)
+        {
+            var dtos = new List<TransactionDto>();
+            foreach (var transaction in transactions)
+            {
+                var dto = new TransactionDto()
+                {
+                    Id= transaction.Id.ToString(),
+                    Amount = transaction.Amount,
+                    Commission  = transaction.Commission,
+                    Description = transaction.Description,
+                    Type = transaction.Type,
+                    SourceWallet = transaction.SourceWallet.Id.ToString(),
+                    DestinationWallet = transaction.DestinationWallet.Id.ToString(),
+                    SourceUserId = transaction.SourceUser.Id.ToString(),
+                    DestinationUserId = transaction.DestinationUser.Id.ToString(),
+                    Currency = transaction.Currency.Name,
+                    SourceLastName = transaction.SourceUser.LastName,
+                    DestinationLastName = transaction.DestinationUser.LastName
+                };
+
+                dtos.Add(dto);
+            }
+
+            return dtos;
         }
+    }
     }
