@@ -43,6 +43,7 @@ namespace Endava.TechCourse.BankApp.Application.Commands.CreateTransaction
                 return CommandStatus.Failed("Fonduri insuficiente");
 
             var sourceUser = await context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == request.SourceUserId);
+         
             var commision = 0;
 
             if (sourceUser != destinationWallet.User) commision = 1;
