@@ -24,7 +24,7 @@ namespace Endava.TechCourse.BankApp.Application.Queries.GetWalletById
         public async Task<Wallet> Handle(GetWalletByIdQuery request, CancellationToken cancellationToken)
         {
             var wallet = await context.Wallets
-                .Include(w => w.Currency).FirstOrDefaultAsync(w => w.Id == request.id);                       
+                .Include(w => w.Currency).Include(w =>w.Type).FirstOrDefaultAsync(w => w.Id == request.id);                       
             return wallet;
         }
     }

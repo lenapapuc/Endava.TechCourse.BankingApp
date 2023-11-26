@@ -25,14 +25,15 @@ namespace Endava.TechCourse.BankApp.Application.Commands.CreateTransaction
         public async Task<CommandStatus> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
         {
 
-            var sourceWallet = await context.Wallets.Include(x => x.Currency).FirstOrDefaultAsync(x => x.Id.ToString() == request.SourceWallet);
+            var sourceWallet = await context.Wallets.Include(x => x.Currency).Include(x => x.Type)
+                .FirstOrDefaultAsync(x => x.Id.ToString() == request.SourceWallet);
 
             if (sourceWallet is null)
                 return CommandStatus.Failed("Portofelul sursa nu exista");
 
             var destinationWallet = await context.Wallets.
                 Include(x => x.User).
-                Include(x => x.Currency).
+                Include(x => x.Currency).             
                 FirstOrDefaultAsync(x => x.Id.ToString() == request.DestinationWallet);
 
             if (destinationWallet is null)
@@ -44,9 +45,9 @@ namespace Endava.TechCourse.BankApp.Application.Commands.CreateTransaction
 
             var sourceUser = await context.Users.FirstOrDefaultAsync(x => x.Id.ToString() == request.SourceUserId);
          
-            var commision = 0;
+            decimal commision = 0;
 
-            if (sourceUser != destinationWallet.User) commision = 1;
+            if (sourceUser != destinationWallet.User) commision = sourceWallet.Type.Commission;
 
             var transaction = new Transaction()
             {

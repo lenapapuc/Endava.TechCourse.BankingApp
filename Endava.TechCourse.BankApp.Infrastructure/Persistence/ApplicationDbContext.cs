@@ -1,4 +1,5 @@
 ﻿using Endava.TechCourse.BankApp.Domain.Models;
+using Endava.TechCourse.BankApp.Infrastructure.Configurations;
 using Endava.University.BankApp.Infrastructure.Configurations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -15,6 +16,7 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
     public DbSet<Wallet> Wallets { get; set; }
     public DbSet<Currency> Currencies { get; set; }
     public DbSet<Transaction> Transactions { get; set; }
+    public DbSet<WalletType> WalletTypes { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -25,6 +27,8 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
 
         modelBuilder.Entity<Currency>()
             .HasKey(e => e.Id);
+        modelBuilder.Entity<WalletType>()
+           .HasKey(e => e.Id);
 
         modelBuilder.Entity<Currency>()
             .HasMany(e => e.Wallets)
@@ -35,5 +39,6 @@ public class ApplicationDbContext : IdentityDbContext<User, IdentityRole<Guid>, 
         base.OnModelCreating(modelBuilder);
         modelBuilder.ApplyConfiguration(new RoleConfiguration());
         modelBuilder.ApplyConfiguration(new CurrencyConfiguration());
+        modelBuilder.ApplyConfiguration(new WalletTypeConfiguration());
     }
 }

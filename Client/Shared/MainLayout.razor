@@ -9,11 +9,21 @@
     <MudAppBar Elevation="0" Color="Color.Primary">
         <h2>Endava University Bank App | </h2>
         <MudButton Href="/" Variant="Variant.Text" Style=@($"color:{Theme.PaletteDark.White}") Class="ml-4">Pagina Principala</MudButton>
+        <AuthorizeView>
+            <NotAuthorized>
+                <MudSpacer />
+                <MudButton Href="/login" Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" Class="mr-4">Autentificare</MudButton>
+                <MudButton Href="/register" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary" Class="mr-4">Inregistrare</MudButton>
+            </NotAuthorized>
+        </AuthorizeView>
+
         <AuthorizeView Roles ="USER">
             <Authorized >
                 <MudButton Href="/user-panel" Variant="Variant.Text" Style=@($"color:{Theme.PaletteDark.White}") Class="ml-4">Panou utilizator</MudButton>
                 <MudSpacer />
                 <MudButton Href="/" OnClick="Logout" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary" Class="mr-4">Logout</MudButton>
+
+               
             </Authorized>
             
 
@@ -27,13 +37,7 @@
             </Authorized>
         </AuthorizeView>
 
-        <AuthorizeView>
-            <NotAuthorized>
-                <MudSpacer />
-                <MudButton Href="/login" Variant="Variant.Filled" DisableElevation="true" Color="Color.Tertiary" Class="mr-4">Autentificare</MudButton>
-                <MudButton Href="/register" Variant="Variant.Filled" DisableElevation="true" Color="Color.Secondary" Class="mr-4">Inregistrare</MudButton>
-            </NotAuthorized>
-        </AuthorizeView>
+       
 
     </MudAppBar>
 

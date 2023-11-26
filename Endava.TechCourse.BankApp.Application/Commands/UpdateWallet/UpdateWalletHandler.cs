@@ -27,9 +27,11 @@ namespace Endava.TechCourse.BankApp.Application.Commands.UpdateWallet
                 if (wallet is null) return CommandStatus.Failed("Acest portofel nu exista");
             var currency = await context.Currencies.FirstOrDefaultAsync(x => x.CurrencyCode == request.Currency);
                 if (currency is null)  return CommandStatus.Failed("Valuta pentru acest portofel nu exista");
+            var walletType = await context.WalletTypes.FirstOrDefaultAsync(x => x.Name == request.Type);
+                 if (walletType is null)  return CommandStatus.Failed("Acest tip nu exista");
 
             wallet.Currency = currency;
-            wallet.Type = request.Type;
+            wallet.Type = walletType;
             wallet.Amount = request.Amount;
             wallet.CurrencyId = currency.Id;
             

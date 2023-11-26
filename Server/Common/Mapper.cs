@@ -14,7 +14,7 @@
                     {
                        
                         Id = wallet.Id.ToString(),
-                        Type = wallet.Type,
+                        Type = wallet.Type.Name,
                         Currency = wallet.Currency.Name,
                         ChangeRate = wallet.Currency.ChangeRate,
                         Amount = wallet.Amount,
@@ -37,7 +37,7 @@
                 {
 
                     Id = wallet.Id.ToString(),
-                    Type = wallet.Type,
+                    Type = wallet.Type.Name,
                     Currency = wallet.Currency.Name,
                     ChangeRate = wallet.Currency.ChangeRate,
                     Amount = wallet.Amount
@@ -54,7 +54,7 @@
                     var dto = new WalletDto()
                     {
                         Id = wallet.Id.ToString(),
-                        Type = wallet.Type,
+                        Type = wallet.Type.Name,
                         Currency = wallet.Currency.Name,
                         ChangeRate = wallet.Currency.ChangeRate,
                         Amount = wallet.Amount
