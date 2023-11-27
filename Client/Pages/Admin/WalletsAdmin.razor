@@ -1,0 +1,68 @@
+﻿@page "/all-wallets"
+@layout AdminLayout
+@inject HttpClient httpClient
+
+<PageTitle>Endava .NET Tech Course</PageTitle>
+<AuthorizeView Roles="ADMIN">
+    <MudGrid>
+        <MudItem md="12">
+            <MudText Typo="Typo.h4" GutterBottom="true">Toate portofele existente</MudText>
+        </MudItem>
+        @if (wallets is null || !wallets.Any())
+        {
+            <MudItem md="12">
+                <MudAlert Severity="Severity.Info">La moment nu exista niciun portofel.</MudAlert>
+            </MudItem>
+        }
+        else
+        {
+            foreach (var wallet in wallets)
+            {
+                <MudItem md="3">
+                    <MudCard>
+                        <MudCardHeader>
+                            <CardHeaderContent>
+                                <MudText Typo="Typo.h6">Portofel de tipul: @wallet.Type</MudText>
+                                <MudText Typo="Typo.h6">Utilizator: @wallet.LastNameofUser @wallet.FirstNameofUser</MudText>
+                            </CardHeaderContent>
+                            <CardHeaderActions>
+                                <MudIconButton Icon="@Icons.Material.Filled.Bookmark" Color="Color.Default" />
+                            </CardHeaderActions>
+                        </MudCardHeader>
+                        <MudCardContent>
+
+                            <MudText>Balanta contului : @wallet.Amount</MudText>
+                            <MudText>Valuta - @wallet.Currency</MudText>
+                            
+                        </MudCardContent>
+                    </MudCard>
+                </MudItem>
+            }
+        }
+       
+        
+    </MudGrid>
+</AuthorizeView>
+
+
+@code {
+    private IEnumerable<WalletDto> wallets;
+    private IEnumerable<CurrencyDto> currencies;
+    private WalletDto newWallet = new();
+    private string newWalletError = string.Empty;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await GetWallets();
+       // await GetCurrencies();
+        StateHasChanged();
+
+        await base.OnInitializedAsync();
+    }
+
+    public async Task GetWallets() => wallets = await this.httpClient.GetFromJsonAsync<List<WalletDto>>("api/wallets/all");
+   // public async Task GetCurrencies() => currencies = await this.httpClient.GetFromJsonAsync<List<CurrencyDto>>("api/currencies");
+
+
+
+}

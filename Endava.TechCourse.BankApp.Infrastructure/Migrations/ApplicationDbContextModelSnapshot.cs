@@ -40,6 +40,66 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("7dbb95c5-b674-456f-b066-301bb7751569"),
+                            ChangeRate = 1m,
+                            CurrencyCode = "MDL",
+                            Name = "Leu Moldovenesc"
+                        });
+                });
+
+            modelBuilder.Entity("Endava.TechCourse.BankApp.Domain.Models.Transaction", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Amount")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<decimal>("Commission")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<Guid?>("CurrencyId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid?>("DestinationUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("DestinationWalletId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SourceUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("SourceWalletId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("TransactionStatus")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CurrencyId");
+
+                    b.HasIndex("DestinationUserId");
+
+                    b.HasIndex("DestinationWalletId");
+
+                    b.HasIndex("SourceUserId");
+
+                    b.HasIndex("SourceWalletId");
+
+                    b.ToTable("Transactions");
                 });
 
             modelBuilder.Entity("Endava.TechCourse.BankApp.Domain.Models.User", b =>
@@ -129,9 +189,14 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                     b.Property<string>("Type")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid?>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CurrencyId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Wallets");
                 });
@@ -162,6 +227,20 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("ad74300a-7462-430d-98b6-1d1cd0ddbdb8"),
+                            Name = "USER",
+                            NormalizedName = "USER"
+                        },
+                        new
+                        {
+                            Id = new Guid("b1c8e105-af19-4341-bb6c-2e65e697d34a"),
+                            Name = "ADMIN",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
@@ -267,6 +346,39 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Endava.TechCourse.BankApp.Domain.Models.Transaction", b =>
+                {
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.Currency", "Currency")
+                        .WithMany()
+                        .HasForeignKey("CurrencyId");
+
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.User", "DestinationUser")
+                        .WithMany()
+                        .HasForeignKey("DestinationUserId");
+
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.Wallet", "DestinationWallet")
+                        .WithMany()
+                        .HasForeignKey("DestinationWalletId");
+
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.User", "SourceUser")
+                        .WithMany()
+                        .HasForeignKey("SourceUserId");
+
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.Wallet", "SourceWallet")
+                        .WithMany()
+                        .HasForeignKey("SourceWalletId");
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("DestinationUser");
+
+                    b.Navigation("DestinationWallet");
+
+                    b.Navigation("SourceUser");
+
+                    b.Navigation("SourceWallet");
+                });
+
             modelBuilder.Entity("Endava.TechCourse.BankApp.Domain.Models.Wallet", b =>
                 {
                     b.HasOne("Endava.TechCourse.BankApp.Domain.Models.Currency", "Currency")
@@ -275,7 +387,13 @@ namespace Endava.TechCourse.BankApp.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("Endava.TechCourse.BankApp.Domain.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
                     b.Navigation("Currency");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
